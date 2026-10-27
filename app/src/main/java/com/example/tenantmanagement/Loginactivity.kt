@@ -33,6 +33,7 @@ class Loginactivity : AppCompatActivity() {
 
             // Successfully logged in -> Navigate to MainActivity
             val intent = Intent(this, MainActivity::class.java)
+            intent.putExtra("EMAIL", email)
             startActivity(intent)
             finish()
         }

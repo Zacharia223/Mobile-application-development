@@ -5,12 +5,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.navArgs
 import com.example.tenantmanagement.databinding.FragmentViewTenantsBinding
-
+import android.content.Intent
+import android.net.Uri
 class ViewTenantsFragment : Fragment() {
 
     private var _binding: FragmentViewTenantsBinding? = null
     private val binding get() = _binding!!
+
+    // Read the tenant passed through Safe Args.
+    private val args: ViewTenantsFragmentArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -26,18 +31,31 @@ class ViewTenantsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Hidden until we pass a newly added tenant in Practical 3.
-        binding.newTenantGroup.visibility = View.GONE
+        val newTenant = args.newTenant
 
+        // Display the new tenant through Data Binding.
+        binding.tenant = newTenant
+
+        // Show "Just added" only when a tenant was passed.
+        binding.newTenantGroup.visibility =
+            if (newTenant == null) View.GONE else View.VISIBLE
+        binding.callButton.setOnClickListener {
+            if (newTenant != null) {
+                val intent = Intent(
+                    Intent.ACTION_DIAL,
+                    Uri.fromParts("tel", newTenant.phone, null)
+                )
+                startActivity(intent)
+            }
+        }
         val tenants = TenantRepository.tenants
 
-        if (tenants.isEmpty()) {
-            binding.allTenantsTextView.text =
+        binding.allTenantsTextView.text =
+            if (tenants.isEmpty()) {
                 "No tenants yet. Add one from the Dashboard."
-        } else {
-            binding.allTenantsTextView.text =
+            } else {
                 tenants.joinToString("\n\n") { it.summary() }
-        }
+            }
     }
 
     override fun onDestroyView() {
