@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="24dp"
-    tools:context=".Loginactivity">
+    tools:context="com.example.tenantmanagement.ui.auth.Loginactivity">
 
     <TextView
         android:id="@+id/loginTitleTextView"

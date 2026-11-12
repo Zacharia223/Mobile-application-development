@@ -1,4 +1,4 @@
-package com.example.tenantmanagement
+package com.example.tenantmanagement.ui.main
 
 import android.os.Bundle
 import android.util.Log
@@ -14,7 +14,9 @@ import android.widget.TextView
 import androidx.navigation.ui.onNavDestinationSelected
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import com.example.tenantmanagement.R
 import com.example.tenantmanagement.databinding.ActivityMainBinding
+import com.example.tenantmanagement.ui.auth.Loginactivity
 
 class MainActivity : AppCompatActivity() {
 
