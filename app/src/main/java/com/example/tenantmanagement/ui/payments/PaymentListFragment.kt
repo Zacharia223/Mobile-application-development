@@ -2,6 +2,8 @@ package com.example.tenantmanagement.ui.payments
 
 import android.app.NotificationChannel
 import android.app.NotificationManager
+import android.Manifest
+import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,6 +12,7 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -27,6 +30,8 @@ class PaymentListFragment : Fragment() {
     private val binding get() = _binding!!
     private lateinit var viewModel: PaymentViewModel
     private var payments: List<Payment> = emptyList()
+    private val notificationPermissionLauncher =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) { }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, state: Bundle?): View {
         _binding = FragmentPaymentListBinding.inflate(inflater, container, false)
@@ -35,6 +40,7 @@ class PaymentListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         viewModel = ViewModelProvider(this, PaymentViewModelFactory(requireActivity().application))[PaymentViewModel::class.java]
+        requestNotificationPermission()
         scheduleReminderWorker()
         binding.addPaymentButton.setOnClickListener {
             findNavController().navigate(R.id.action_paymentListFragment_to_addPaymentFragment)
@@ -75,6 +81,14 @@ class PaymentListFragment : Fragment() {
             ExistingPeriodicWorkPolicy.KEEP,
             request
         )
+    }
+
+    private fun requestNotificationPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU &&
+            requireContext().checkSelfPermission(Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED
+        ) {
+            notificationPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+        }
     }
 
     private fun confirmDelete(payment: Payment) {

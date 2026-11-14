@@ -7,13 +7,20 @@ import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import com.example.tenantmanagement.R
 import com.example.tenantmanagement.data.local.PaymentDatabaseHelper
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 class RentReminderWorker(appContext: Context, workerParams: WorkerParameters) :
     CoroutineWorker(appContext, workerParams) {
     override suspend fun doWork(): Result {
+        val today = SimpleDateFormat("yyyy-MM-dd", Locale.US).format(Date())
         val overduePayments = PaymentDatabaseHelper(applicationContext)
             .getAll()
-            .count { it.status.equals("Pending", ignoreCase = true) || it.status.equals("Overdue", ignoreCase = true) }
+            .count {
+                (it.status.equals("Pending", ignoreCase = true) || it.status.equals("Overdue", ignoreCase = true)) &&
+                    it.paymentDate <= today
+            }
 
         if (overduePayments > 0) {
             val notification = NotificationCompat.Builder(applicationContext, CHANNEL_ID)
