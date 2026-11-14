@@ -11,6 +11,8 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.tenantmanagement.data.model.Payment
 import com.example.tenantmanagement.databinding.FragmentAddPaymentBinding
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 class AddPaymentFragment : Fragment() {
     private var _binding: FragmentAddPaymentBinding? = null
@@ -44,15 +46,21 @@ class AddPaymentFragment : Fragment() {
         val status = binding.statusEditText.text.toString().trim().ifEmpty { "Paid" }
         val notes = binding.notesEditText.text.toString().trim()
         val amount = amountText.toDoubleOrNull()
-        if (tenant.isEmpty() || amount == null || amount <= 0 || date.isEmpty()) {
-            binding.validationTextView.text = "Enter a tenant, a valid amount, and a payment date."
+        val validStatuses = setOf("Paid", "Pending", "Overdue")
+        val validDate = runCatching {
+            SimpleDateFormat("yyyy-MM-dd", Locale.US).apply { isLenient = false }.parse(date)
+            date.matches(Regex("\\d{4}-\\d{2}-\\d{2}"))
+        }.getOrDefault(false)
+        if (tenant.isEmpty() || amount == null || amount <= 0 || !validDate || status !in validStatuses) {
+            binding.validationTextView.text = "Enter a valid tenant, amount, date (YYYY-MM-DD), and status (Paid, Pending, or Overdue)."
             binding.validationTextView.visibility = View.VISIBLE
             return
         }
         binding.validationTextView.visibility = View.GONE
         val payment = Payment(existing?.id ?: 0, tenant, amount, date, status, notes)
         val complete: (Boolean) -> Unit = { success ->
-            requireActivity().runOnUiThread {
+            activity?.runOnUiThread {
+                if (!isAdded || _binding == null) return@runOnUiThread
                 Toast.makeText(requireContext(), if (success) "Payment saved" else "Unable to save payment", Toast.LENGTH_SHORT).show()
                 if (success) findNavController().popBackStack()
             }
