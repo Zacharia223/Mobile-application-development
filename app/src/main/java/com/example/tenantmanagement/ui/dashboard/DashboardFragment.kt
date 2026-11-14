@@ -54,6 +54,10 @@ class DashboardFragment : Fragment() {
                 .actionDashboardFragmentToViewTenantsFragment()
             findNavController().navigate(action)
         }
+
+        binding.viewPaymentsButton.setOnClickListener {
+            findNavController().navigate(com.example.tenantmanagement.R.id.action_dashboardFragment_to_paymentListFragment)
+        }
     }
 
     override fun onStart() {
