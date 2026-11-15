@@ -12,6 +12,6 @@ interface TenantDao {
     @Insert
     suspend fun insertTenant(tenant: Tenant)
 
-    @Query("SELECT * FROM tenants ORDER BY name")
+    @Query("SELECT * FROM tenants ORDER BY name ASC")
     fun getAllTenants(): LiveData<List<Tenant>>
 }

@@ -16,7 +16,6 @@ class ViewTenantsFragment : Fragment() {
 
     private var _binding: FragmentViewTenantsBinding? = null
     private val binding get() = _binding!!
-
     private val args: ViewTenantsFragmentArgs by navArgs()
     private val viewModel: TenantViewModel by activityViewModels()
 
@@ -33,6 +32,7 @@ class ViewTenantsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.lifecycleOwner = viewLifecycleOwner
 
         val newTenant = args.newTenant
 

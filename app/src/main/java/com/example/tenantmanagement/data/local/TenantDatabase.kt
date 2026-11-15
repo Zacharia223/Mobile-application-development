@@ -6,7 +6,11 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.example.tenantmanagement.data.model.Tenant
 
-@Database(entities = [Tenant::class], version = 1)
+@Database(
+    entities = [Tenant::class],
+    version = 1,
+    exportSchema = false
+)
 abstract class TenantDatabase : RoomDatabase() {
 
     abstract fun tenantDao(): TenantDao
@@ -17,13 +21,14 @@ abstract class TenantDatabase : RoomDatabase() {
 
         fun getDatabase(context: Context): TenantDatabase {
             return INSTANCE ?: synchronized(this) {
-                val database = Room.databaseBuilder(
+                val instance = Room.databaseBuilder(
                     context.applicationContext,
                     TenantDatabase::class.java,
                     "tenant_database"
                 ).build()
-                INSTANCE = database
-                database
+
+                INSTANCE = instance
+                instance
             }
         }
     }

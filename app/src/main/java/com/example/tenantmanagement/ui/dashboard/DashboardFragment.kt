@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
+import com.example.tenantmanagement.R
 import com.example.tenantmanagement.databinding.FragmentDashboardBinding
 import com.example.tenantmanagement.ui.viewmodel.TenantViewModel
 
@@ -15,7 +16,6 @@ class DashboardFragment : Fragment() {
 
     private var _binding: FragmentDashboardBinding? = null
     private val binding get() = _binding!!
-
     private val viewModel: TenantViewModel by activityViewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -52,6 +52,10 @@ class DashboardFragment : Fragment() {
             val action = DashboardFragmentDirections
                 .actionDashboardFragmentToViewTenantsFragment()
             findNavController().navigate(action)
+        }
+
+        binding.viewPaymentsButton.setOnClickListener {
+            findNavController().navigate(R.id.action_dashboardFragment_to_paymentListFragment)
         }
     }
 

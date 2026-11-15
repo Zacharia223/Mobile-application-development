@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent" android:layout_height="match_parent">
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="20dp">
+        <TextView android:id="@+id/titleTextView" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Add Rent Payment" android:textSize="24sp" android:textStyle="bold" />
+        <EditText android:id="@+id/tenantEditText" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Tenant name" android:inputType="textPersonName" />
+        <EditText android:id="@+id/amountEditText" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Amount (KSh)" android:inputType="numberDecimal" />
+        <EditText android:id="@+id/dateEditText" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Payment date (YYYY-MM-DD)" android:inputType="date" />
+        <EditText android:id="@+id/statusEditText" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Status (Paid/Pending/Overdue)" android:inputType="textCapSentences" />
+        <EditText android:id="@+id/notesEditText" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Notes (optional)" android:inputType="textMultiLine" />
+        <TextView android:id="@+id/validationTextView" android:layout_width="match_parent" android:layout_height="wrap_content" android:textColor="#B00020" android:visibility="gone" />
+        <Button android:id="@+id/savePaymentButton" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="SAVE PAYMENT" />
+    </LinearLayout>
+</ScrollView>
