@@ -5,19 +5,20 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.navArgs
 import com.example.tenantmanagement.databinding.FragmentViewTenantsBinding
 import android.content.Intent
 import android.net.Uri
-import com.example.tenantmanagement.data.repository.TenantRepository
+import com.example.tenantmanagement.ui.viewmodel.TenantViewModel
 
 class ViewTenantsFragment : Fragment() {
 
     private var _binding: FragmentViewTenantsBinding? = null
     private val binding get() = _binding!!
 
-    // Read the tenant passed through Safe Args.
     private val args: ViewTenantsFragmentArgs by navArgs()
+    private val viewModel: TenantViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -50,14 +51,10 @@ class ViewTenantsFragment : Fragment() {
                 startActivity(intent)
             }
         }
-        val tenants = TenantRepository.tenants
 
-        binding.allTenantsTextView.text =
-            if (tenants.isEmpty()) {
-                "No tenants yet. Add one from the Dashboard."
-            } else {
-                tenants.joinToString("\n\n") { it.summary() }
-            }
+        viewModel.allTenantsText.observe(viewLifecycleOwner) { text ->
+            binding.allTenantsTextView.text = text
+        }
     }
 
     override fun onDestroyView() {
