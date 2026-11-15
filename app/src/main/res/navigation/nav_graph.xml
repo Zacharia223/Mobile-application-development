@@ -26,6 +26,10 @@
             app:exitAnim="@anim/nav_default_exit_anim"
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
             app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+
+        <action
+            android:id="@+id/action_dashboardFragment_to_paymentListFragment"
+            app:destination="@id/paymentListFragment" />
     </fragment>
 
     <fragment
@@ -49,6 +53,28 @@
         <argument
             android:name="newTenant"
             app:argType="com.example.tenantmanagement.data.model.Tenant"
+            app:nullable="true"
+            android:defaultValue="@null" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/paymentListFragment"
+        android:name="com.example.tenantmanagement.ui.payments.PaymentListFragment"
+        android:label="Rent Payments"
+        tools:layout="@layout/fragment_payment_list">
+        <action
+            android:id="@+id/action_paymentListFragment_to_addPaymentFragment"
+            app:destination="@id/addPaymentFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/addPaymentFragment"
+        android:name="com.example.tenantmanagement.ui.payments.AddPaymentFragment"
+        android:label="Payment"
+        tools:layout="@layout/fragment_add_payment">
+        <argument
+            android:name="payment"
+            app:argType="com.example.tenantmanagement.data.model.Payment"
             app:nullable="true"
             android:defaultValue="@null" />
     </fragment>
