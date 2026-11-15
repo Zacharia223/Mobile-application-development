@@ -6,14 +6,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
-import com.example.tenantmanagement.data.repository.TenantRepository
 import com.example.tenantmanagement.databinding.FragmentDashboardBinding
+import com.example.tenantmanagement.ui.viewmodel.TenantViewModel
 
 class DashboardFragment : Fragment() {
 
     private var _binding: FragmentDashboardBinding? = null
     private val binding get() = _binding!!
+    private val viewModel: TenantViewModel by activityViewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,13 +37,8 @@ class DashboardFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         Log.d("TENANT_LIFECYCLE", "   DashboardFragment: onViewCreated")
-
-        val tenantCount = TenantRepository.tenants.size
-        val totalRent = TenantRepository.totalRent()
-
-        binding.tenantCountTextView.text = "Tenants\n$tenantCount"
-        binding.totalRentTextView.text =
-            "Total rent\nKSh %,.0f".format(totalRent)
+        binding.viewModel = viewModel
+        binding.lifecycleOwner = viewLifecycleOwner
 
         binding.addTenantButton.setOnClickListener {
             val action = DashboardFragmentDirections
@@ -53,6 +50,10 @@ class DashboardFragment : Fragment() {
             val action = DashboardFragmentDirections
                 .actionDashboardFragmentToViewTenantsFragment()
             findNavController().navigate(action)
+        }
+
+        binding.viewPaymentsButton.setOnClickListener {
+            findNavController().navigate(com.example.tenantmanagement.R.id.action_dashboardFragment_to_paymentListFragment)
         }
     }
 

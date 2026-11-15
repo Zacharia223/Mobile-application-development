@@ -5,16 +5,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import com.example.tenantmanagement.databinding.FragmentAddTenantBinding
 import android.widget.Toast
 import androidx.navigation.fragment.findNavController
-import com.example.tenantmanagement.data.model.Tenant
-import com.example.tenantmanagement.data.repository.TenantRepository
+import com.example.tenantmanagement.ui.viewmodel.TenantViewModel
 
 class AddTenantFragment : Fragment() {
 
     private var _binding: FragmentAddTenantBinding? = null
     private val binding get() = _binding!!
+    private val viewModel: TenantViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -44,11 +45,16 @@ class AddTenantFragment : Fragment() {
                 return@setOnClickListener
             }
 
-            // Store the tenant in the shared repository.
-            val tenant = Tenant(name, phone, rent)
-            TenantRepository.addTenant(tenant)
+            val tenant = viewModel.addTenant(name, phone, rent)
+            if (tenant == null) {
+                Toast.makeText(
+                    requireContext(),
+                    "Please fill in all fields",
+                    Toast.LENGTH_SHORT
+                ).show()
+                return@setOnClickListener
+            }
 
-            // Pass the new tenant to View Tenants using Safe Args.
             val action = AddTenantFragmentDirections
                 .actionAddTenantFragmentToViewTenantsFragment(tenant)
 
