@@ -1,4 +1,3 @@
-
 package com.example.tenantmanagement.data.local
 
 import android.content.Context

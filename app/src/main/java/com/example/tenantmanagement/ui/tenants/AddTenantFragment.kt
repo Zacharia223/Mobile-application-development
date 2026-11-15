@@ -35,16 +35,6 @@ class AddTenantFragment : Fragment() {
             val phone = binding.phoneEditText.text.toString().trim()
             val rent = binding.rentEditText.text.toString().trim()
 
-            if (name.isEmpty() || phone.isEmpty() || rent.isEmpty()) {
-                Toast.makeText(
-                    requireContext(),
-                    "Please fill in all fields",
-                    Toast.LENGTH_SHORT
-                ).show()
-
-                return@setOnClickListener
-            }
-
             val tenant = viewModel.addTenant(name, phone, rent)
             if (tenant == null) {
                 Toast.makeText(
@@ -60,7 +50,6 @@ class AddTenantFragment : Fragment() {
 
             findNavController().navigate(action)
         }
-
     }
 
     override fun onDestroyView() {

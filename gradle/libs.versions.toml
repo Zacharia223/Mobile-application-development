@@ -1,6 +1,8 @@
 [versions]
-agp = "9.4.1"
+agp = "8.5.0"
 kotlin = "2.0.21"
+safeargs = "2.10.2"
+ksp = "2.0.21-1.0.25"
 coreKtx = "1.10.1"
 junit = "4.13.2"
 junitVersion = "1.1.5"
@@ -22,7 +24,6 @@ androidx-constraintlayout = { group = "androidx.constraintlayout", name = "const
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
-
-
-
-
+kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+navigation-safeargs = { id = "androidx.navigation.safeargs.kotlin", version.ref = "safeargs" }
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }

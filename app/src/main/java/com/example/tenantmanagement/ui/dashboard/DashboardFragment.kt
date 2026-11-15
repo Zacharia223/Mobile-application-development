@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
+import com.example.tenantmanagement.R
 import com.example.tenantmanagement.databinding.FragmentDashboardBinding
 import com.example.tenantmanagement.ui.viewmodel.TenantViewModel
 
@@ -37,6 +38,7 @@ class DashboardFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         Log.d("TENANT_LIFECYCLE", "   DashboardFragment: onViewCreated")
+
         binding.viewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
 
@@ -53,7 +55,7 @@ class DashboardFragment : Fragment() {
         }
 
         binding.viewPaymentsButton.setOnClickListener {
-            findNavController().navigate(com.example.tenantmanagement.R.id.action_dashboardFragment_to_paymentListFragment)
+            findNavController().navigate(R.id.action_dashboardFragment_to_paymentListFragment)
         }
     }
 

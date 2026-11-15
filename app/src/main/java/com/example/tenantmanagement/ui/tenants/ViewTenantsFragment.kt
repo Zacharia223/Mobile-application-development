@@ -16,10 +16,8 @@ class ViewTenantsFragment : Fragment() {
 
     private var _binding: FragmentViewTenantsBinding? = null
     private val binding get() = _binding!!
-    private val viewModel: TenantViewModel by activityViewModels()
-
-    // Read the tenant passed through Safe Args.
     private val args: ViewTenantsFragmentArgs by navArgs()
+    private val viewModel: TenantViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -53,6 +51,7 @@ class ViewTenantsFragment : Fragment() {
                 startActivity(intent)
             }
         }
+
         viewModel.allTenantsText.observe(viewLifecycleOwner) { text ->
             binding.allTenantsTextView.text = text
         }
